@@ -121,6 +121,7 @@ public class DelphixEngine {
     private static final String FIELD_GROUP = "group";
     private static final String FIELD_STATUS = "status";
     private static final String FIELD_CONTAINER = "container";
+    private static final String FIELD_TIMEFLOW = "timeflow";
     private static final String FIELD_PARENT_POINT = "parentPoint";
     private static final String FIELD_CURRENT_TIMEFLOW = "currentTimeflow";
     private static final String FIELD_RUNTIME = "runtime";
@@ -354,6 +355,27 @@ public class DelphixEngine {
     }
 
     /**
+     * List snapshots in the Delphix Engine
+     */
+    public LinkedHashMap<String, DelphixSnapshot> listSnapshots()
+            throws ClientProtocolException, IOException, DelphixEngineException {
+        // Get snapshots
+        LinkedHashMap<String, DelphixSnapshot> snapshots = new LinkedHashMap<String, DelphixSnapshot>();
+        JsonNode snapshotsJSON = engineGET(PATH_ENVIRONMENT).get(FIELD_RESULT);
+
+        // Loop through snapshot list
+        for (int i = 0; i < snapshotsJSON.size(); i++) {
+            JsonNode snapshotJSON = snapshotsJSON.get(i);
+            DelphixSnapshot snapshot = new DelphixSnapshot(snapshotJSON.get(FIELD_REFERENCE).asText(),
+                    snapshotJSON.get(FIELD_NAME).asText(), snapshotJSON.get(FIELD_CONTAINER).asText(),
+                    snapshotJSON.get(FIELD_TIMEFLOW).asText());
+            snapshots.put(snapshot.getContainerRef(), snapshot);
+        }
+
+        return snapshots;
+    }
+
+    /**
      * Cancel a job running on the Delphix Engine
      */
     public void cancelJob(String jobRef) throws ClientProtocolException, IOException, DelphixEngineException {
@@ -449,14 +471,16 @@ public class DelphixEngine {
         try {
             result = enginePOST(PATH_PROVISION, params.toString());
         } catch (DelphixEngineException e) {
-            // Handle the case where some of the fields in the defaults are read only by removing those fields
+            // Handle the case where some of the fields in the defaults are read
+            // only by removing those fields
             if (e.getMessage().contains("This field is read-only")) {
                 JsonNode errors = MAPPER.readTree(e.getMessage());
                 List<String> list1 = IteratorUtils.toList(errors.fieldNames());
                 for (String field1 : list1) {
                     List<String> list2 = IteratorUtils.toList(errors.get(field1).fieldNames());
                     for (String field2 : list2) {
-                        // Field1 is the outer field and field2 is the inner field
+                        // Field1 is the outer field and field2 is the inner
+                        // field
                         ObjectNode node = (ObjectNode) params.get(field1);
                         // Remove the inner field
                         node.remove(field2);
@@ -490,8 +514,8 @@ public class DelphixEngine {
     }
 
     public String deleteEnvironment(String environmentRef) throws IOException, DelphixEngineException {
-        JsonNode result =
-                enginePOST(String.format(PATH_DELETE_ENVIRONMENT, environmentRef), CONTENT_DELETE_ENVIRONMENT);
+        JsonNode result = enginePOST(String.format(PATH_DELETE_ENVIRONMENT, environmentRef),
+                CONTENT_DELETE_ENVIRONMENT);
         return result.get(FIELD_JOB).asText();
     }
 
