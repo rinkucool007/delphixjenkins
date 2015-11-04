@@ -22,9 +22,9 @@ public class DelphixSnapshot {
     private final String name;
 
     private final String reference;
-    
+
     private final String containerRef;
-    
+
     private final String timeflowRef;
 
     public DelphixSnapshot(String reference, String name, String containerRef, String timeflowRef) {
@@ -41,12 +41,12 @@ public class DelphixSnapshot {
     public String getReference() {
         return this.reference;
     }
-    
+
     public String getContainerRef() {
-    	return this.containerRef;
+        return this.containerRef;
     }
-    
+
     public String getTimeflowRef() {
-    	return this.timeflowRef;
+        return this.timeflowRef;
     }
 }
