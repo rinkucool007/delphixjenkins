@@ -468,9 +468,9 @@ public class DelphixEngine {
     /**
      * Get the provision defaults for provisioning from a semantic point on a container
      */
-    private String getProvisionDefaultsContainer(String containerRef) throws IOException, DelphixEngineException {
+    private String getProvisionDefaultsContainer(String containerRef, String location) throws IOException, DelphixEngineException {
         JsonNode result =
-                enginePOST(PATH_PROVISION_DEFAULTS, String.format(CONTENT_PROVISION_DEFAULTS_CONTAINER, containerRef));
+                enginePOST(PATH_PROVISION_DEFAULTS, String.format(CONTENT_PROVISION_DEFAULTS_CONTAINER, containerRef, location));
         return result.get(FIELD_RESULT).toString();
     }
 
@@ -496,7 +496,7 @@ public class DelphixEngine {
             throws IOException, DelphixEngineException {
         String defaultParams = "";
         if (snapshotRef.equals(CONTENT_LATEST_POINT) || snapshotRef.equals(CONTENT_LATEST_SNAPSHOT)) {
-            defaultParams = getProvisionDefaultsContainer(containerRef);
+            defaultParams = getProvisionDefaultsContainer(containerRef, snapshotRef);
         } else {
             defaultParams = getProvisionDefaultsSnapshot(snapshotRef);
         }

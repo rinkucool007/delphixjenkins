@@ -61,8 +61,8 @@ public class RefreshBuilder extends ContainerBuilder {
         /**
          * Add snapshots to drop down for Refresh action
          */
-        public ListBoxModel doFillDelphixSnapshotItems(@QueryParameter String delphixSnapshot) {
-            return super.doFillDelphixSnapshotItems(delphixSnapshot, DelphixEngine.ContainerOperationType.REFRESH);
+        public ListBoxModel doFillDelphixSnapshotItems(@QueryParameter String delphixContainer) {
+            return super.doFillDelphixSnapshotItems(delphixContainer, DelphixEngine.ContainerOperationType.REFRESH);
         }
 
         /**
