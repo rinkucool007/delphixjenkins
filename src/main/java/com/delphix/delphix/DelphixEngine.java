@@ -90,12 +90,12 @@ public class DelphixEngine {
     private static final String CONTENT_LOGIN =
             "{\"type\": \"LoginRequest\",\"username\": \"%s\",\"password\": \"%s\"}";
     private static final String CONTENT_REFRESH_SEMANTIC = "{\"type\": \"%s\", \"timeflowPointParameters\": {" +
-            "\"type\": \"TimeflowPointSemantic\",\"container\": \"%s\"}}";
+            "\"type\": \"TimeflowPointSemantic\",\"container\": \"%s\", \"location\": \"%s\"}}";
     private static final String CONTENT_REFRESH_POINT = "{\"type\": \"%s\", \"timeflowPointParameters\": {" +
             "\"type\": \"TimeflowPointSnapshot\", \"snapshot\": \"%s\"" + "}}";
     private static final String CONTENT_SYNC = "{\"type\": \"%s\"}";
     private static final String CONTENT_PROVISION_DEFAULTS_CONTAINER =
-            "{\"type\": \"TimeflowPointSemantic\", \"container\": \"%s\"}";
+            "{\"type\": \"TimeflowPointSemantic\", \"container\": \"%s\", \"location\": \"%s\"}";
     private static final String CONTENT_PROVISION_DEFAULTS_SNAPSHOT =
             "{\"type\": \"TimeflowPointSnapshot\", \"snapshot\": \"%s\"}";
     private static final String CONTENT_DELETE_CONTAINER = "{\"type\": \"DeleteParameters\"}";
